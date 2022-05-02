@@ -3,7 +3,7 @@ Automatically bet on Twitch Predicitons
 
 This bot works by taking 6.25% of your current channel points and bets it on the option with the least votes at sixity seconds remaining.\
 Each time the bot fails to win, it'll double the current bet up to four total bets.\
-Bets are recorded into a log file named `Twitch Prediction History.txt`.\
+Bets are recorded into a log file named `Twitch Prediction History.txt`.
 
 The code is highly editable to fit your betting habits.
 Change the `points_to_bet` variable to whatever you desire. \

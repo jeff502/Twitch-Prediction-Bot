@@ -5,6 +5,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException
+from xpath_and_css_selectors import *
+from point_logic import *
 
 
 CHANNEL_NAME = "loltyler1"
@@ -13,92 +15,13 @@ STREAMER = f"https://www.twitch.tv/popout/{CHANNEL_NAME}/chat"
 ser = Service("C:\Program Files (x86)\webdriver\chromedriver.exe")
 driver = webdriver.Chrome(service=ser)
 
-x_button = '//*[@id="root"]/div/div[1]/div/div/section/div/div[5]/div[2]' \
-           '/div[2]/div[1]/div/div/div[2]/div/div/div/div/div/div/div/div[1]/div/div[3]/button'
-channel_prediction_prompt = (
-    '//*[@id="channel-points-reward-center-body"]/div/div/div[1]/div/button'
-)
-
-predict_button_xpath = "/html/body/div[1]/div/div[1]/div/div/section/div/div[3]/div/div[2]" \
-                       "/div/div[3]/div/div/div[1]/div/div/div/div/div/div/div[1]/div/div/div/div/div[2]/button"
-
-predict_with_custom_amount = "/html/body/div[2]/div/div[2]/div[1]/div[2]/div/div[1]/div/div/div/div/div[2]/section/" \
-                             "div/div[6]/div[2]/div[2]/div[1]/div/div/div[2]/div/div/div/div/div/div/div/div[2]" \
-                             "/div[3]/div/div/div/div/div/div/div/div/div[3]/div[2]/button"
-
-points_xpath = '//*[@id="root"]/div/div[1]/div/div/section/div/div[6]/div[2]/div[2]/div[1]/div/div/div/div[1]/div[2]' \
-               '/button/div/div/div/div[2]/span'
-
-blue_votes = '//*[@id="channel-points-reward-center-body"]/div/div/div/div/div/div/div[2]/div/div[1]/div/div/div[3]' \
-             '/div[1]/div[1]/div/div/div[2]/p/span'
-
-red_votes = '//*[@id="channel-points-reward-center-body"]/div/div/div/div/div/div/div[2]/div/div[2]/div/div/div[3]' \
-            '/div[1]/div[1]/div/div/div[2]/p/span'
-
-blue_field = '//*[@id="channel-points-reward-center-body"]/div/div/div/div/div/div/div[3]' \
-             '/div[1]/div/div/div[1]/div/div/div/input'
-
-red_field = "/html/body/div[1]/div/div[1]/div/div/section/div/div[6]/div[2]/div[2]/div[1]/div/div/div[2]/div/div/" \
-            "div/div/div/div/div/div[2]/div[3]/div/div/div/div/div/div/div/div/div[3]" \
-            "/div[1]/div/div/div[2]/div/div/div/input"
-
-blue_button = '//*[@id="channel-points-reward-center-body"]/div/div/div/div/div/div/div[3]/div[1]/div/div/div[1]' \
-              '/div/div/button'
-red_button = '//*[@id="channel-points-reward-center-body"]/div/div/div/div/div/div/div[3]/div[1]/div/div/div[2]' \
-             '/div/div/button'
-
-blue_end = '//*[@id="root"]/div/div[1]/div/div/section/div/div[6]/div[2]/div[2]/div[1]/div/div/div[2]/div/div' \
-           '/div/div/div/div/div/div[1]/div/div[3]/button'
-red_end = '//*[@id="root"]/div/div[1]/div/div/section/div/div[6]/div[2]/div[2]/div[1]/div/div/div[2]/div/div' \
-          '/div/div/div/div/div/div[1]/div/div[3]/button'
-
-timer = '//*[@id="channel-points-reward-center-body"]/div/div/div[1]/div/button/div/div[2]/p[2]'
-
-my_channel_points = ".fQvHcx"
-getting_started_prompt = (
-    '//*[@id="channel-points-reward-center-body"]/div/div/div[2]/button'
-)
-channel_points_reward_body = '//*[@id="channel-points-reward-center-body"]/div/div/div/div/div/div/' \
-                             'div[3]/div[2]/button/div/div'
-
-submission_text = ".dQTuLk"
-
-num_replace = {"K": 1000, "M": 1000000, "B": 1000000000}
-
-
-def pure_number(string, number):
-    mult = 1.0
-    if string in num_replace:
-        x = num_replace[string]
-        x = int(x)
-        mult *= x
-        return number * mult
-
-
-def get_points(current_points):
-    if "K" in current_points:
-        num = float(current_points.split("K")[0])
-        character = current_points[len(current_points) - 1:]
-        current_points = pure_number(string=character, number=num)
-    elif "M" in current_points:
-        num = float(current_points.split("M")[0])
-        character = current_points[len(current_points) - 1:]
-        current_points = pure_number(string=character, number=num)
-    return int(current_points)
-
-
-def how_much_to_bet(six_p, current_loop):
-    if current_loop == 1:
-        return six_p
-    elif current_loop == 2:
-        return six_p * 2
-    elif current_loop == 3:
-        return six_p * 4
-    elif current_loop == 4:
-        return six_p * 8
-
 
 def time_set(total_time):
+    """
+    Sleeps until time =< 1 minute
+    :param total_time:
+    :return:
+    """
     time_remaining = total_time.split(":")
     if time_remaining[0] == "Prediction":
         return
@@ -115,6 +38,17 @@ def time_set(total_time):
         return
 
 
+def prediction_history(color):
+    time_now = datetime.datetime.now().strftime('%H:%M:%S')
+    formatted_date = datetime.datetime.now().strftime('%b-%d-%y')
+    with open("Twitch Prediction History.txt", "a") as f:
+        f.write(
+            f"Streamer: {CHANNEL_NAME} | Points Bet: {points_to_bet} | Color: {color}|"
+            f" Loop Count: {current_loop_count} "
+            f"Time: {time_now} | Date: {formatted_date}\n"
+        )
+
+
 def get_cookie_values(file):
     """
     Takes all the cookies from our csv file.
@@ -128,25 +62,23 @@ def get_cookie_values(file):
     return list_of_dicts
 
 
-if __name__ == "__main__":
-    # Getting the streamer page and uploading our cookies
-
-    # Comment out ⬇ if you want to log in manually. 'ctrl+/'
-    driver.get(STREAMER)
+def upload_cookies():
     cookies = get_cookie_values("twitch_cookies.csv")
     for i in cookies:
         driver.add_cookie(i)
 
     driver.refresh()
-    # Uncomment ⬇ if you want to log in manually.
+
+
+if __name__ == "__main__":
+    driver.get(STREAMER)
+    upload_cookies()
     # time.sleep(120)
 
-    # Default values that'll be updated
     current_loop_count = 1
     total_before_bets = 0
     while True:
         try:
-            
             time.sleep(2)
             channel_points = driver.find_element(By.CSS_SELECTOR, my_channel_points)
             channel_points.click()
@@ -166,20 +98,20 @@ if __name__ == "__main__":
             ).text.lower()
 
             # Checks if the submissions are closed or if voting has ended. Restarts the loop if True
-            
+
             if "closed" in is_submission_closed:
                 try:
                     driver.find_element(By.XPATH, x_button).click()
                 except NoSuchElementException as e:
                     pass
-                time.sleep(40)
+                time.sleep(30)
                 continue
             elif "ended" in is_submission_closed:
                 try:
                     driver.find_element(By.XPATH, x_button).click()
                 except NoSuchElementException as e:
                     pass
-                time.sleep(40)
+                time.sleep(30)
                 continue
             else:
                 pass
@@ -234,10 +166,6 @@ if __name__ == "__main__":
             else:
                 total_red_votes = get_points(trv)
 
-            # Voting on the 'least' likely option. Whatever has the fewest submissions.
-            # Votes 6.25% * N for n loop counts. Maximum of 4 bets before we're out of points.
-            # Increases our loop counter
-            # Appends to our 'Twitch Prediction History.txt' log file with all relevant data regarding voting.
             driver.find_element(By.XPATH, channel_points_reward_body).click()
             if total_blue_votes > total_red_votes:
                 red = driver.find_element(By.XPATH, red_field)
@@ -248,16 +176,7 @@ if __name__ == "__main__":
                 red_vote_button.click()
                 time.sleep(2)
                 driver.find_element(By.XPATH, red_end).click()
-
-                time_now = datetime.datetime.now().strftime('%H:%M:%S')
-                formatted_date = datetime.datetime.now().strftime('%b-%d-%y')
-                with open("Twitch Prediction History.txt", "a") as f:
-                    f.write(
-                        f"Streamer: {CHANNEL_NAME} | Points Bet: {points_to_bet} | Color: Red|"
-                        f" Loop Count: {current_loop_count} "
-                        f"Time: {time_now} | Date: {formatted_date}\n"
-                    )
-
+                prediction_history("Red")
             else:
                 blue = driver.find_element(By.XPATH, blue_field)
                 blue.click()
@@ -267,18 +186,15 @@ if __name__ == "__main__":
                 blue_vote_button.click()
                 time.sleep(2)
                 driver.find_element(By.XPATH, blue_end).click()
+                prediction_history("Blue")
 
-                time_now = datetime.datetime.now().strftime('%H:%M:%S')
-                formatted_date = datetime.datetime.now().strftime('%b-%d-%y')
-                with open("Twitch Prediction History.txt", "a") as f:
-                    f.write(
-                        f"Streamer: {CHANNEL_NAME} | Points Bet: {points_to_bet} | Color: Blue |"
-                        f" Loop Count: {current_loop_count} "
-                        f"Time: {time_now} | Date: {formatted_date}\n"
-                    )
-
+            print(f"Completed the full loop.\n"
+                  f"Amount bet: {points_to_bet}\n"
+                  f"Total points: {total_points}\n"
+                  f"Total before bets: {total_before_bets}\n"
+                  f"Loop count: {current_loop_count}/4")
             current_loop_count += 1
         except (NoSuchElementException, ElementClickInterceptedException) as e:
             pass
 
-        time.sleep(40)
+        time.sleep(30)

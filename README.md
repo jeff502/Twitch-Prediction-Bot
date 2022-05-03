@@ -18,5 +18,5 @@ You'll need to either upload your own cookies into the webdriver (recommended), 
 For uploading your own cookies, watch this Youtube video: https://youtu.be/vhjKJ7huN-w \
 Put your cookies into the file named `twitch_cookies.csv`.
 
-For logging in manually, set the intial sleep to two minutes and comment out lines `134-139` and uncomment  line `142`.\
+For logging in manually, set the intial sleep to two minutes and comment out lines `75` and uncomment  line `76`.\
 `ctrl+/` to comment or uncomment.

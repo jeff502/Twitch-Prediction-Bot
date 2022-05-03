@@ -172,14 +172,14 @@ if __name__ == "__main__":
                     driver.find_element(By.XPATH, x_button).click()
                 except NoSuchElementException as e:
                     pass
-                time.sleep(20)
+                time.sleep(40)
                 continue
             elif "ended" in is_submission_closed:
                 try:
                     driver.find_element(By.XPATH, x_button).click()
                 except NoSuchElementException as e:
                     pass
-                time.sleep(20)
+                time.sleep(40)
                 continue
             else:
                 pass
@@ -281,4 +281,4 @@ if __name__ == "__main__":
         except (NoSuchElementException, ElementClickInterceptedException) as e:
             pass
 
-        time.sleep(30)
+        time.sleep(40)

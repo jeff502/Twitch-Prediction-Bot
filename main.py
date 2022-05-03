@@ -188,11 +188,6 @@ if __name__ == "__main__":
                 driver.find_element(By.XPATH, blue_end).click()
                 prediction_history("Blue")
 
-            print(f"Completed the full loop.\n"
-                  f"Amount bet: {points_to_bet}\n"
-                  f"Total points: {total_points}\n"
-                  f"Total before bets: {total_before_bets}\n"
-                  f"Loop count: {current_loop_count}/4")
             current_loop_count += 1
         except (NoSuchElementException, ElementClickInterceptedException) as e:
             pass

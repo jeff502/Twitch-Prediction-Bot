@@ -5,8 +5,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException
+from point_logic import get_points, how_much_to_bet
 from xpath_and_css_selectors import *
-from point_logic import *
 
 
 CHANNEL_NAME = "loltyler1"

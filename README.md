@@ -1,5 +1,9 @@
 # Twitch-Prediction-Bot
-Automatically bet on Twitch Predicitons
+A Selenium based webdriver used to automatically bet on Twitch Predictions.\
+You'll need a Selenium webdriver inorder to run this program.\
+`https://pypi.org/project/selenium/`
+Under `drivers` download the driver for your browser./
+This bot uses Google Chrome and Selenium's Chrome driver by default. Feel free to change this as you see fit.
 
 This bot works by taking 6.25% of your current channel points and bets it on the option with the least votes at one minute remaining.\
 Each time the bot fails to win, it'll double the current bet up to four total bets.\

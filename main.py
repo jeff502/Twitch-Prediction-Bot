@@ -4,7 +4,8 @@ from csv import DictReader
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException
+from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException, \
+    StaleElementReferenceException
 from point_logic import get_points, how_much_to_bet
 from xpath_and_css_selectors import *
 
@@ -191,5 +192,7 @@ if __name__ == "__main__":
             current_loop_count += 1
         except (NoSuchElementException, ElementClickInterceptedException) as e:
             pass
+         except StaleElementReferenceException:
+            driver.refresh()
 
         time.sleep(30)

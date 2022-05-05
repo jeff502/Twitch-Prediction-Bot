@@ -76,6 +76,8 @@ if __name__ == "__main__":
     upload_cookies()
     # time.sleep(120)
 
+    high_score = 0
+    six_percent = 1
     current_loop_count = 1
     total_before_bets = 0
     while True:
@@ -126,19 +128,23 @@ if __name__ == "__main__":
                 else:
                     points = total_points
 
-                if current_loop_count > 4:
-                    current_loop_count = 1
-                    total_before_bets = 0
+                if total_points > high_score:
+                    high_score = total_points
 
                 if total_before_bets == 0:
                     total_before_bets = total_points
 
-                # If our new total is higher than when we started, we won.
                 if total_before_bets > total_points:
                     current_loop_count = 1
                     total_before_bets = total_points
 
-                six_percent = (round(points * 0.0625))
+                if current_loop_count > 4:
+                    current_loop_count = 1
+                    six_percent = (round(points * 0.0625))
+                    total_before_bets = 0
+                elif current_loop_count == 1:
+                    six_percent = (round(points * 0.0625))
+
                 points_to_bet = how_much_to_bet(six_p=six_percent, current_loop=current_loop_count)
 
             except NoSuchElementException as e:
@@ -177,6 +183,7 @@ if __name__ == "__main__":
                 red_vote_button.click()
                 time.sleep(2)
                 driver.find_element(By.XPATH, red_end).click()
+
                 prediction_history("Red")
             else:
                 blue = driver.find_element(By.XPATH, blue_field)
@@ -187,12 +194,14 @@ if __name__ == "__main__":
                 blue_vote_button.click()
                 time.sleep(2)
                 driver.find_element(By.XPATH, blue_end).click()
+
                 prediction_history("Blue")
+
 
             current_loop_count += 1
         except (NoSuchElementException, ElementClickInterceptedException) as e:
             pass
-         except StaleElementReferenceException:
+        except StaleElementReferenceException:
             driver.refresh()
 
         time.sleep(30)

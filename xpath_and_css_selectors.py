@@ -1,3 +1,7 @@
+"""
+This file is for all relevant CSS selectors x-paths.
+"""
+
 x_button = '//*[@id="root"]/div/div[1]/div/div/section/div/div[5]/div[2]' \
            '/div[2]/div[1]/div/div/div[2]/div/div/div/div/div/div/div/div[1]/div/div[3]/button'
 channel_prediction_prompt = (

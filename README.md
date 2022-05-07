@@ -22,4 +22,9 @@ For uploading your own cookies, watch this Youtube video: https://youtu.be/vhjKJ
 Put your cookies into the file named `twitch_cookies.csv`.
 
 For logging in manually, set the intial sleep to two minutes and comment out lines `75` and uncomment  line `76`.\
-`ctrl+/` to comment or uncomment.
+`ctrl+/` to comment or uncomment. \
+
+
+Update May-6 \
+Cleaned up and refactored the code. \
+Added a feature to continute your betting streak between streams. \

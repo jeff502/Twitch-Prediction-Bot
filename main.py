@@ -103,7 +103,7 @@ if __name__ == "__main__":
                 if total_before_bets == 0:
                     total_before_bets = total_points
 
-                if total_before_bets > total_points:
+                if total_before_bets < total_points:
                     current_loop_count = 1
                     total_before_bets = total_points
 

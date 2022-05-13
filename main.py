@@ -151,9 +151,11 @@ if __name__ == "__main__":
                 red_vote_button = driver.find_element(By.XPATH, red_button)
                 red_vote_button.click()
                 time.sleep(2)
-                driver.find_element(By.XPATH, red_end).click()
                 prediction_history(CHANNEL_NAME, points_to_bet, "Red",
                                    current_loop_count, total_before_bets, six_percent)
+                
+                current_loop_count += 1
+                driver.find_element(By.XPATH, red_end).click()
             else:
                 blue = driver.find_element(By.XPATH, blue_field)
                 blue.click()
@@ -162,11 +164,11 @@ if __name__ == "__main__":
                 blue_vote_button = driver.find_element(By.XPATH, blue_button)
                 blue_vote_button.click()
                 time.sleep(2)
-                driver.find_element(By.XPATH, blue_end).click()
                 prediction_history(CHANNEL_NAME, points_to_bet, "Blue",
                                    current_loop_count, total_before_bets, six_percent)
 
-            current_loop_count += 1
+                current_loop_count += 1
+                driver.find_element(By.XPATH, blue_end).click()
         except (NoSuchElementException, ElementClickInterceptedException) as e:
             pass
         except StaleElementReferenceException:

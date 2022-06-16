@@ -43,7 +43,7 @@ red_end = '//*[@id="root"]/div/div[1]/div/div/section/div/div[6]/div[2]/div[2]/d
 
 timer = '//*[@id="channel-points-reward-center-body"]/div/div/div[1]/div/button/div/div[2]/p[2]'
 
-my_channel_points = ".fQvHcx"
+my_channel_points = ".ScCoreButtonText-sc-1qn4ixc-3"
 getting_started_prompt = (
     '//*[@id="channel-points-reward-center-body"]/div/div/div[2]/button'
 )
